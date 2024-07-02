@@ -1,10 +1,21 @@
 import Image from "next/image"
-import hero from '@/public/pexels.png'
 import logo from '@/public/Tour Travel Business Logo.png'
 import { Button } from "./Button"
 import { Options } from "./Options"
+import { getTravels } from "@/app/api/route"
+import { Response } from "@/types/Response"
 
-export function Welcome() {
+export async function Welcome() {
+  const { data, dictionaries }: Response = await getTravels()
+  const iataCode = data[0].itineraries[0].segments[data[0].itineraries[0].segments.length - 1].arrival.iataCode
+  const countryCode = dictionaries.locations[iataCode].countryCode
+  const responseCountry = await fetch(`https://servicodados.ibge.gov.br/api/v1/paises/${countryCode}`, {
+    method: 'GET'
+  })
+
+  const country = await responseCountry.json()
+  console.log(data[0].lastTicketingDate, 'data')
+
   return (
     <div className="w-full flex justify-center relative bg-hero-pattern bg-no-repeat bg-center bg-cover pb-24">
 
@@ -33,17 +44,17 @@ export function Welcome() {
             <div className="bg-white flex justify-between px-8 py-6 rounded-b-2xl rounded-tr-2xl">
               <div className="">
                 <p className="text-gray-400">Localização</p>
-                <p className="font-bold">Russia</p>
+                <p className="font-bold">{country[0].nome.abreviado}</p>
               </div>
 
               <div className="">
                 <p className="text-gray-400">Nº de passageiros</p>
-                <p className="font-bold">03 passageiros</p>
+                <p className="font-bold">{data[0].numberOfBookableSeats}</p>
               </div>
 
               <div className="">
                 <p className="text-gray-400">Check-in</p>
-                <p className="font-bold">22 Dez 2023</p>
+                <p className="font-bold">{data[0].lastTicketingDate}</p>
               </div>
               <Button placeholder="Procurar pacotes" />
             </div>

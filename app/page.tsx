@@ -11,20 +11,12 @@ import disney from '@/public/disneyOrlando.png'
 import disneyParis from '@/public/disneyParis.png'
 import carrero from '@/public/carrero.png'
 import { Footer } from "@/components/Footer";
-
-
-interface Response {
-  data: {
-    id: number,
-    source: string,
-    itineraries: {
-      duration: string
-    }[]
-  }[]
-}
+import { Response } from "@/types/Response";
 
 export default async function Home() {
-  const response: Response = await getTravels()
+  // const response: Response = await getTravels()
+  // console.log(response)
+
   return (
     <main className="flex flex-col items-center justify-center">
       <Welcome />
@@ -98,14 +90,6 @@ export default async function Home() {
       </div>
 
       <Footer />
-
-      {/* {response.data.map(travel => (
-        <div key={travel.id}>
-          <p>{travel.source}</p>
-          {travel.itineraries.map((itinerary, index: number) => (
-            <p key={index}>{itinerary.duration}</p>
-          ))}</div>
-      ))} */}
     </main>
   );
 }

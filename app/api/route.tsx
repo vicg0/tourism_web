@@ -4,15 +4,13 @@ export async function getTravels() {
   try {
     await postAuthentication()
 
-    const res = await fetch('https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=GRU&destinationLocationCode=BKK&departureDate=2024-12-20&adults=1', {
+    const res = await fetch('https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=GRU&destinationLocationCode=MCZ&departureDate=2024-07-03&adults=1&nonStop=false&currencyCode=BRL&max=1', {
       headers: {
-        'Authorization': `Bearer ${accessToken}`,
+        'Authorization': `Bearer E0WPp36PXGRVSaZuJsKEtLQ3nujL`,
       }
     })
 
-
     const data = await res.json()
-
 
     return data
 
@@ -32,4 +30,5 @@ async function postAuthentication() {
 
   const data = await res.json()
   accessToken = data.access_token
+  console.log(accessToken)
 }
